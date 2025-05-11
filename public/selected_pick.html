@@ -76,7 +76,7 @@
                         <li class="sidebar-item">
                             <i class="lni lni-user-4"></i>
                             <span>
-                                <a href="#" class="sidebar-link">Username</a>
+                                <a href="profile.html" class="sidebar-link">Username</a>
                             </span>
                         </li>
                     </ul>
@@ -86,7 +86,7 @@
                         <li class="sidebar-item">
                             <i class="lni lni-message-2"></i>
                             <span>
-                                <a href="#" class="sidebar-link">Chats</a>
+                                <a href="chat.html" class="sidebar-link">Chats</a>
                             </span>
                         </li>
                     </ul>
@@ -114,32 +114,15 @@
                 </form>
             </nav>
 
-            <!-- True Section -->
+            <!-- Dynamic pet loader -->
             <section class="p-3 d-flex justify-content-center align-items-center w-100">
-                <div class="media d-flex align-items-center">
-
-                    <!-- Pet Image -->
-                    <div class="favorite-container">
-                        <img class="align-self-center mr-4 rounded" src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQJ9L-r3RFCGWnEpFIzhX5cJIZROyAdB91pTtGDbWGHFlUAYs-0FzP4YEj5Bm1WQqh7Xcx3s9SWAoD7U50XHjvGAA" style="max-width: 700px; max-height: auto; margin-top: 10px;" alt="pet-id">
-                        <button class="favorite-btn" data-favorited="false" onclick="toggleFavorite(this)">
-                            <i class="bi bi-heart"></i>
-                        </button>
-                    </div>
-                      
-                    <!-- Pet Description -->
-                    <div class="media-body me-5">
-                        <h4 class="mt-0 ">Laika</h4>
-                        <h1 class="mt-0 fw-bold">1 year old, Husky</h1>
-                        <br>
-                        <p class="text-muted">Laika is a 1-year-old Husky looking for a new home. I’m moving and unfortunately can’t keep her. She’s playful, energetic, and loves attention. She needs at least two walks a day and space to run around.
-                        She’s friendly with kids and gets along with other dogs if introduced properly. She’s vaccinated and dewormed. I just want her to go to a good home where she’ll be loved and taken care of. If you’re interested, send me a message.</p>
-                        <br>
-                        <i class="lni lni-location-arrow-right"></i>
-                        <span>
-                            <p>Ciudad Granja</p>
-                        </span>
-                        &nbsp;
-                        <button type="button" class="btn btn-dark btn-lg btn-block w-100">Adopt!</button>
+                <div class="media d-flex align-items-center" id="petDetailsContainer">
+                    <!-- Content will be loaded dynamically here -->
+                    <div id="loading" class="col-12 text-center">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p>Loading pet details...</p>
                     </div>
                 </div>
             </section>

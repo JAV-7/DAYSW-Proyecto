@@ -4,8 +4,8 @@ const PetSchema = new mongoose.Schema({
     name: { type: String, required: true },
     age: { type: Number, required: true },
     gender: { type: String, 
-              required: true,
-              enum: [ 'female', 'male', 'other' ] },
+            required: true,
+            enum: [ 'female', 'male', 'other' ]  },
     breed: { type: String, required: true},
     species: {
              type: String,

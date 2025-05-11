@@ -211,18 +211,23 @@ a.sidebar-link:hover {
 .favorite-container {
     position: relative;
     display: inline-block;
+    max-width: 700px;
   }
   
   .favorite-container img {
-    width: 1200px;
+    max-width: 700px;
+    max-height: 700px;
+    width: auto;
     height: auto;
     border-radius: 15px;
+    object-fit: contain;
   }
   
   .favorite-container .favorite-btn {
     position: absolute;
     top: 20px;
-    left: 20px;
+    right: 20px; 
+    left: auto; 
     background-color: rgba(0, 0, 0, 0.5);
     border: none;
     border-radius: 50%;
@@ -232,6 +237,7 @@ a.sidebar-link:hover {
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    z-index: 10;
   }
   
   .favorite-container .favorite-btn i {

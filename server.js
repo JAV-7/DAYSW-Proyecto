@@ -6,14 +6,16 @@ const app = express();
 const mongoose = require('mongoose');
 const cors = require('cors');
 const path = require('path');
+const { authorizeRole } = require('./middleware/roles.middleware');
+const { verifyToken } = require('./middleware/auth.middleware');
 
 
 app.use(cors({ // Enables CORS for security purposes
-  origin: `http://localhost:5500`, // or your frontend origin
+  origin: 'http://localhost:3000', // or your frontend origin
   credentials: true
 }));
 app.use(express.json()); // to parse JSON from frontend
-app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); // ensures images can be accessed
+app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); 
 
 
 mongoose.connect(process.env.MONGODB_URI, { // Basic MongoDB connection 
@@ -36,17 +38,22 @@ app.use('/api/pets', petRoutes);
 app.use('/api/adoptions', adoptionRoutes);
 app.use('/api/favorites', favoriteRoutes);
 
+
 app.use((err, req, res, next) => { // Basic error handling
   console.error(err.stack);
   res.status(500).json({ error: 'Internal Server Error' });
 });
 
-// START SERVER ON PORT 
-const PORT = process.env.PORT || 5500;
+// START SERVER ON PORT 3000
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
 
+// ROUTE TO ADMIN DASHBOARD
+app.get('/admin/dashboard', verifyToken, authorizeRole(['admin']), (req, res) => {
+  res.sendFile(path.join(__dirname, 'interfaces/admin_dashboard.html'));
+});
 
 // debug test
 app.get('/api/ping', (req, res) => {
