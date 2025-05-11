@@ -1,0 +1,527 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>ChatComunicacion</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <!-- Bootstrap CSS v5.3 -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <!-- Iconos de Bootstrap -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+    />
+
+    <style>
+      /* Fondo general */
+      body {
+        background-color: #f8f9fa;
+      }
+
+      /* Contenedor principal del chat */
+      .chat-container {
+        height: 90vh; /* vh(viewport height) = unidad que depende del elemento raiz -> HTML = 16px 1 REM = 16px ) */
+        border: .5px solid #dee2e6; 
+        border-radius: 5px;
+        overflow: hidden; 
+      }
+
+      /* Barra de chats (columna izquierda) */
+      .chat-list {
+        background-color: #fff;
+        border-right: 1px solid #dee2e6;
+        height: 100%; /*Ocupa todo el alto  de su contenedor padre*/
+        overflow-y: auto;
+      }
+      /*Cambia el aspecto del pointer al tocar los elementos */
+      .chat-list .list-group-item {
+        cursor: pointer;
+      }
+      /* Al pasar  el raton se ilumina ell fondo*/
+      .chat-list .list-group-item:hover {
+        background-color: #f1f1f1;
+      }
+
+      /* Header del chat */
+      .chat-header {
+        background-color: #fff;
+        border-bottom: 1px solid #dee2e6;
+        padding: 1rem;
+      }
+
+      /*Ajuste de Imagen*/
+      .profile-img {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        object-fit: cover; 
+        margin-right: 0.5rem;
+      }
+
+      /* Cuerpo del chat */
+      .chat-body {
+        padding: 1rem;
+        background-color: #fafafa;
+        height: calc(100% - 140px); /* Resta header + footer */
+        overflow-y: auto;
+      }
+
+      /* Mensajes */
+      .message-bubble {
+        max-width: 60%;
+        padding: 0.75rem 1rem;
+        margin-bottom: 0.75rem;
+        border-radius: 15px;
+        font-size: 0.9rem;
+      }
+      .message-left {
+        background-color: #e9ecef;
+        margin-right: auto;
+      }
+      .message-right {
+        background-color: #000;
+        color: #fff;
+        margin-left: auto;
+        text-align: right;
+      }
+
+      /* Footer del chat */
+      .chat-footer {
+        background-color: #fff;
+        border-top: 1px solid #dee2e6;
+        padding: 1rem;
+      }
+      .chat-footer input {
+        border: 1px solid #dee2e6;
+        border-radius: 20px;
+        padding-left: 1rem;
+        width: 100%;
+        outline: none;
+      }
+      .chat-footer button {
+        border: none;
+        background-color: transparent;
+        padding: 0 1rem;
+        color: #000;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!--Conttenedor de bootstrap para alinear y centrar el contenido con un ancho máximo responsivo
+    my-4 añade margen  de tamaño 4 = 1.4 rem (4/16 = .25) -->
+    <div class="container my-4">
+        <div class="row chat-container"> <!--Row usa sistema de rejilla de bootstrap-->
+            <!-- Lista de chats (columna izquierda), oculta en pantallas pequeñas (d-none) -->
+            <!--col-md-3 = ocupa 3 columnas, d-md-block = se muestra como bloque a partir de md-->
+            <div class="col-md-3 d-none d-md-block p-0 chat-list">
+                <!--Caja con padding y borde para separar donde esta el busccador de chats-->
+                <div class="p-3 border-bottom">
+                    <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Search chats"
+                    />
+                </div>
+                <!--Lista de chats-->
+                <ul class="list-group list-group-flush">
+                    <!-- Usuario 01 -->
+                    <li class="list-group-item d-flex align-items-center">
+                        <img
+                            src="https://th.bing.com/th/id/OIP.F5DqNhkxW4-cDZqruYKY4QHaE7?rs=1&pid=ImgDetMain"
+                            alt="User"
+                            class="profile-img me-2"
+                        />
+                        <!--Mensaje de usuario-->
+                        <div>
+                            <div class="fw-bold">Helena Hills</div>
+                            <small>Will head to the Help Center...</small>
+                        </div>
+                    </li>
+                    <!-- Usuario 02 -->
+                    <li class="list-group-item d-flex align-items-center">
+                        <img
+                            src="https://th.bing.com/th/id/R.83d9da0496e2fe58cc64ab47841d11fa?rik=W7T72PYGCuahhQ&pid=ImgRaw&r=0"
+                            alt="User"
+                            class="profile-img me-2"
+                        />
+                        <div>
+                            <div class="fw-bold">Carlos Emilio</div>
+                            <small>Let's go</small>
+                        </div>
+                    </li>
+                    <!-- Usuario 03 -->
+                    <li class="list-group-item d-flex align-items-center">
+                        <img
+                            src="https://th.bing.com/th/id/OIP.VtLV5O8DSLSORS5HBixx5gHaE7?rs=1&pid=ImgDetMain"
+                            alt="User"
+                            class="profile-img me-2"
+                        />
+                        <div>
+                            <div class="fw-bold">Oscar Davis</div>
+                            <small>Trueeee</small>
+                        </div>
+                    </li>
+                    <!-- Usuario 04 -->
+                    <li class="list-group-item d-flex align-items-center">
+                        <img
+                            src="https://i.pinimg.com/originals/f7/e7/17/f7e7176b806f3dd765d7b2fdc0bf24ff.jpg"
+                            alt="User"
+                            class="profile-img me-2"
+                        />
+                        <div>
+                            <div class="fw-bold">Daniel Jay Park</div>
+                            <small>lol yeah, Are you coming...</small>
+                        </div>
+                    </li>
+                    <!-- Usuario 05 -->
+                    <li class="list-group-item d-flex align-items-center">
+                        <img
+                            src="https://conceptodefinicion.de/wp-content/uploads/2015/03/hombre.jpg"
+                            alt="User"
+                            class="profile-img me-2"
+                        />
+                        <div>
+                            <div class="fw-bold">Mark Rojas</div>
+                            <small>Blah blah blah blah</small>
+                        </div>
+                    </li>
+                    <!-- Usuario 06 -->
+                    <li class="list-group-item d-flex align-items-center">
+                        <img
+                            src="https://th.bing.com/th/id/OIP.g6hvmEkK4ZbVSFSBZMOiagHaFT?rs=1&pid=ImgDetMain"
+                            alt="User"
+                            class="profile-img me-2"
+                        />
+                        <div>
+                            <div class="fw-bold">Glannis Constatinou</div>
+                            <small>Blah blah blah</small>
+                        </div>
+                    </li>
+                    <!-- Usuario 07 -->
+                    <li class="list-group-item d-flex align-items-center">
+                        <img
+                            src="https://th.bing.com/th/id/OIP.1jBLO82Qrd9Y8mmK8SPPwgHaEK?rs=1&pid=ImgDetMain"
+                            alt="User"
+                            class="profile-img me-2"
+                        />
+                        <div>
+                            <div class="fw-bold">Brian Lewis</div>
+                            <small>Blah Blah Blah</small>
+                        </div>
+                    </li>
+                    <!-- Usuario 08 -->
+                    <li class="list-group-item d-flex align-items-center">
+                        <img
+                            src="https://th.bing.com/th/id/OIP.yc8szz7HKpXWtY1u_CcetgHaEK?rs=1&pid=ImgDetMain"
+                            alt="User"
+                            class="profile-img me-2"
+                        />
+                        <div>
+                            <div class="fw-bold">Miss. Margaret</div>
+                            <small>blah blah blah</small>
+                        </div>
+                    </li>
+                    <!-- Usuario 09 -->
+                    <li class="list-group-item d-flex align-items-center">
+                        <img
+                            src="https://th.bing.com/th/id/OIP.ogfIhqsB-pKmZJBuFC1ekQHaLH?rs=1&pid=ImgDetMain"
+                            alt="User"
+                            class="profile-img me-2"
+                        />
+                        <div>
+                            <div class="fw-bold">Sherry Lemon</div>
+                            <small>Blah blah blah</small>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Columna de chat principal (derecha) -->
+            <div class="col-12 col-md-9 p-0 d-flex flex-column" style="height: 100%">
+            <!-- Header del chat -->
+                <div class="chat-header d-flex align-items-center">
+                    <!-- Botón menú (offcanvas), solo en móvil -->
+                    <button
+                    class="btn btn-light d-md-none me-3"
+                    type="button"
+                    data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasChatList"
+                    aria-controls="offcanvasChatList"
+                    >
+                        <i class="bi bi-list"></i>
+                    </button>
+                    <!--Foto y nombre de persona con quien se chatea-->
+                    <img
+                    src="https://th.bing.com/th/id/OIP.F5DqNhkxW4-cDZqruYKY4QHaE7?rs=1&pid=ImgDetMain"
+                    alt="Helena"
+                    class="profile-img"
+                    />
+                    <div class="d-flex flex-column">
+                        <strong>Helena Hills</strong>
+                        <small class="text-muted">Active 20m ago</small>
+                    </div>
+                    <!-- Botones de llamada/video y perfil -->
+                    <div class="ms-auto d-none d-md-block">
+                        <button class="btn btn-light">
+                            <i class="bi bi-telephone"></i>
+                        </button>
+                        <button class="btn btn-light">
+                            <i class="bi bi-camera-video"></i>
+                        </button>
+
+                        <button
+                            class="btn btn-light"
+                            type="button"
+                            data-bs-toggle="offcanvas"
+                            data-bs-target="#offcanvasUserProfile"
+                            aria-controls="offcanvasUserProfile"
+                        >
+                            <i class="bi bi-person"></i>
+                        </button>
+                    </div>
+                </div>
+
+            <!-- Cuerpo del chat -->
+                <div class="chat-body flex-grow-1 overflow-auto p-3">
+                <!-- Mensajes de ejemplo -->
+                    <div class="message-bubble message-right">
+                        No honestly I'm thinking of a career pivot
+                    </div>
+                    <div class="message-bubble message-right">
+                        This is the main chat template
+                    </div>
+                    <small class="text-muted d-block mb-3">Nov 30, 2023, 9:41 AM</small>
+        
+                    <div class="message-bubble message-left">
+                        Oh?
+                    </div>
+                    <div class="message-bubble message-left">
+                        Cool
+                    </div>
+                    <div class="message-bubble message-left">
+                        How does it work?
+                    </div>
+                    <div class="message-bubble message-right">
+                        Simple
+                    </div>
+                    <div class="message-bubble message-right">
+                        You just edit any text to type in the conversation you want to show,
+                        and delete any bubbles you don't want to use
+                    </div>
+                    <div class="message-bubble message-right">
+                        Boom
+                    </div>
+                    <div class="message-bubble message-left">
+                        Hmmm<br />
+                        I think I get it
+                    </div>
+                    <div class="message-bubble message-left">
+                        Will head to the Help Center if I have more questions tho
+                    </div>
+                </div>
+        
+            <!-- Footer del chat (input) -->
+                <div class="chat-footer d-flex align-items-center">
+                    <input type="text" placeholder="Enter your message" />
+                    <button>
+                    <i class="bi bi-send"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Offcanvas: lista de chats para pantallas pequeñas -->
+    <div
+      class="offcanvas offcanvas-start d-md-none"
+      tabindex="-1"
+      id="offcanvasChatList"
+      aria-labelledby="offcanvasChatListLabel"
+    >
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasChatListLabel">Chats</h5>
+        <button
+          type="button"
+          class="btn-close text-reset"
+          data-bs-dismiss="offcanvas"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="offcanvas-body p-0">
+        <div class="p-3 border-bottom">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Search chats..."
+          />
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item d-flex align-items-center">
+                <img
+                src="https://th.bing.com/th/id/OIP.F5DqNhkxW4-cDZqruYKY4QHaE7?rs=1&pid=ImgDetMain"
+                alt="User"
+                class="profile-img me-2"
+                />
+                <div>
+                <div class="fw-bold">Helena Hills</div>
+                <small>Will head to the Help Center...</small>
+                </div>
+            </li>
+            <li class="list-group-item d-flex align-items-center">
+                <img
+                src="https://th.bing.com/th/id/R.83d9da0496e2fe58cc64ab47841d11fa?rik=W7T72PYGCuahhQ&pid=ImgRaw&r=0"
+                alt="User"
+                class="profile-img me-2"
+                />
+                <div>
+                <div class="fw-bold">Carlos Emilio</div>
+                <small>Let's go</small>
+                </div>
+            </li>
+            <li class="list-group-item d-flex align-items-center">
+                <img
+                src="https://th.bing.com/th/id/OIP.VtLV5O8DSLSORS5HBixx5gHaE7?rs=1&pid=ImgDetMain"
+                alt="User"
+                class="profile-img me-2"
+                />
+                <div>
+                <div class="fw-bold">Oscar Davis</div>
+                <small>Trueeeee</small>
+                </div>
+            </li>
+            <li class="list-group-item d-flex align-items-center">
+                <img
+                  src="https://i.pinimg.com/originals/f7/e7/17/f7e7176b806f3dd765d7b2fdc0bf24ff.jpg"
+                  alt="User"
+                  class="profile-img me-2"
+                />
+                <div>
+                  <div class="fw-bold">Daniel Jay Park</div>
+                  <small>lol yeah, Are you coming...</small>
+                </div>
+            </li>
+            <li class="list-group-item d-flex align-items-center">
+                <img
+                  src="https://conceptodefinicion.de/wp-content/uploads/2015/03/hombre.jpg"
+                  alt="User"
+                  class="profile-img me-2"
+                />
+                <div>
+                  <div class="fw-bold">Mark Rojas</div>
+                  <small>Blah blah blah</small>
+                </div>
+            </li>
+            <li class="list-group-item d-flex align-items-center">
+                <img
+                  src="https://th.bing.com/th/id/OIP.g6hvmEkK4ZbVSFSBZMOiagHaFT?rs=1&pid=ImgDetMain"
+                  alt="User"
+                  class="profile-img me-2"
+                />
+                <div>
+                  <div class="fw-bold">GlanniS Constatinou</div>
+                  <small>Blah blah blah</small>
+                </div>
+            </li>
+            <li class="list-group-item d-flex align-items-center">
+                <img
+                  src="https://th.bing.com/th/id/OIP.1jBLO82Qrd9Y8mmK8SPPwgHaEK?rs=1&pid=ImgDetMain"
+                  alt="User"
+                  class="profile-img me-2"
+                />
+                <div>
+                  <div class="fw-bold">Brian Lewis</div>
+                  <small>Blah blah blah</small>
+                </div>
+            </li>
+            <li class="list-group-item d-flex align-items-center">
+                <img
+                  src="https://th.bing.com/th/id/OIP.yc8szz7HKpXWtY1u_CcetgHaEK?rs=1&pid=ImgDetMain"
+                  alt="User"
+                  class="profile-img me-2"
+                />
+                <div>
+                  <div class="fw-bold">Miss. Margaret</div>
+                  <small>Blah blah blah</small>
+                </div>
+            </li>
+            <li class="list-group-item d-flex align-items-center">
+                <img
+                  src="https://th.bing.com/th/id/OIP.ogfIhqsB-pKmZJBuFC1ekQHaLH?rs=1&pid=ImgDetMain"
+                  alt="User"
+                  class="profile-img me-2"
+                />
+                <div>
+                  <div class="fw-bold">Sherry Lemon</div>
+                  <small>Blah blah blah</small>
+                </div>
+            </li>
+            
+        </ul>
+      </div>
+    </div>
+    <!-- Offcanvas: Perfil del usuario (NUEVO) -->
+    <div
+      class="offcanvas offcanvas-end"
+      tabindex="-1"
+      id="offcanvasUserProfile"
+      aria-labelledby="offcanvasUserProfileLabel"
+    >
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasUserProfileLabel">Helena's Profile</h5>
+            <button
+                type="button"
+                class="btn-close text-reset"
+                data-bs-dismiss="offcanvas"
+                aria-label="Close"
+            ></button>
+            </div>
+            <div class="offcanvas-body">
+            <!--Información del perfil -->
+            <div class="text-center">
+                <img
+                src="https://th.bing.com/th/id/OIP.F5DqNhkxW4-cDZqruYKY4QHaE7?rs=1&pid=ImgDetMain"
+                alt="Profile"
+                class="rounded-circle mb-3"
+                style="width: 60px; height: 60px; object-fit: cover;"
+                />
+                <h6>Helena Hills</h6>
+                <p class="text-muted">Active 20m ago</p>
+            </div>
+            <hr />
+            <p>
+                <strong>Bio:</strong><br />
+                Enthusiastic traveler, digital marketer, and coffee lover. Always looking
+                for new adventures.
+            </p>
+            <p>
+                <strong>Email:</strong><br />
+                helena@example.com
+            </p>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS (Popper + Bootstrap) -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+      integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+      integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

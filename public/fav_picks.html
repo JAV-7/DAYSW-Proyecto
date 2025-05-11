@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>Favorites</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+        <!-- local_stylesheet -->
+        <link rel="stylesheet" href="styles.css">
+        <!-- Line icons -->
+        <link rel="stylesheet" href="https://cdn.lineicons.com/5.0/lineicons.css" />
+        <!-- Bootstrap icons -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+        <!-- Bootstrap CSS v5.2.1 -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        
+    </head>
+
+    <body>
+        <div class="d-flex">
+            <!-- Sidebar -->
+            <aside id="sidebar" class="sidebar-toggle">
+                <div class="sidebar-logo">
+                    <h3>Paws & Hope</h3>
+                </div>
+            <!-- Sidebar Navigation Section-->
+             <ul class="sidebar-nav p-0">
+                <li class="sidebar-header">
+                    <a href="#" class="sidebar-link collapsed has-dropdown"  data-bs-toggle="collapse" 
+                    data-bs-target="#discover" aria-expanded="true" aria-controls="discover">
+                        <span>Discover</span>
+                    </a>
+                </li>
+                <!-- Sidebar Navigation Section Items-->
+                <li class="sidebar-item">
+                    <ul id="discover" class="sidebar-dropdown list-unstyled collapse">
+                        <li class="sidebar-item">
+                            <i class="lni lni-home-2"></i>
+                            <span>
+                                <a href="picks.html" class="sidebar-link">Home</a>
+                            </span>
+                        </li>
+                        <li class="sidebar-item">
+                            <i class="lni lni-search-1"></i>
+                            <span>
+                                <a href="#" class="sidebar-link">Browse</a>
+                            </span>
+                        </li>
+                        <li class="sidebar-item">
+                            <i class="lni lni-upload-1"></i>
+                            <span>
+                                <a href="#" class="sidebar-link">Post</a>
+                            </span>
+                        </li>
+                    </ul>
+                </li>
+                <!-- Sidebar Navigation Section-->
+                 <li class="sidebar-header">
+                    <a href="#" class="sidebar-link collapsed has-dropdown"  data-bs-toggle="collapse" 
+                    data-bs-target="#auth" aria-expanded="true" aria-controls="auth">
+                        <span>My Account</span>
+                    </a>
+                </li>
+                <!-- Sidebar Navigation Section Items-->
+                <li class="sidebar-item">
+                    <ul id="auth" class="sidebar-dropdown list-unstyled collapse" >
+                        <li class="sidebar-item">
+                            <i class="lni lni-bookmark-1"></i>
+                            <span>
+                                <a href="fav_picks.html" class="sidebar-link">Favorites</a>
+                            </span>
+                        </li>
+                    </ul>
+                 </li>
+                 <li class="sidebar-item">
+                    <ul id="auth" class="sidebar-dropdown list-unstyled collapse" >
+                        <li class="sidebar-item">
+                            <i class="lni lni-user-4"></i>
+                            <span>
+                                <a href="#" class="sidebar-link">Username</a>
+                            </span>
+                        </li>
+                    </ul>
+                 </li>
+                 <li class="sidebar-item">
+                    <ul id="auth" class="sidebar-dropdown list-unstyled collapse" >
+                        <li class="sidebar-item">
+                            <i class="lni lni-message-2"></i>
+                            <span>
+                                <a href="#" class="sidebar-link">Chats</a>
+                            </span>
+                        </li>
+                    </ul>
+                 </li>
+             </ul>
+             <!-- Sidebar Navigation Ends-->
+            </aside>
+        <!-- Sidebar Ends-->
+        <!-- Main Section-->
+            <div class="main">
+                 <!-- Toggler-->
+                <nav class="navbar navbar-expand no-border">
+                    <button class="toggler-btn" type="button">
+                        <i class="lni lni-text-paragraph"></i>
+                    </button>
+                </nav>
+        <!-- True Main Section-->
+                <main class="p-3">
+                    <div class="container-fluid">
+                        <div class="mb-3 text-justify">
+                            <h1> Favorites❤️‍🩹</h1>
+                            <p class="h6 text-muted">All your furry faves in one place!🐾</p>
+                            <br>
+                        </div>
+                    </div>
+
+                    <!-- Pet Carousel-->
+                    <!-- JS classes to be implemented-->
+                    <div class="container-fluid">
+                        <div class="row gy-3">
+                            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                                <div class="card position-relative">
+                                    <img src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQJ9L-r3RFCGWnEpFIzhX5cJIZROyAdB91pTtGDbWGHFlUAYs-0FzP4YEj5Bm1WQqh7Xcx3s9SWAoD7U50XHjvGAA" class="card-img-top" alt="...">
+                                    
+                                    <!-- Overlay Text on Image -->
+                                    <div class="position-absolute top-0 start-0 p-2 text-white">
+                                        <h4 class="card-title mb-0">Mateo</h4>
+                                    </div>
+
+                                    <!-- Overlay Fav Button -->
+                                    <button class="favorite-btn btn btn-sm position-absolute top-0 end-0" data-favorited="false" onclick="toggleFavorite(this)">
+                                        <i class="bi bi-heart"></i>
+                                      </button>
+
+                                    <!-- Card Body -->
+                                    <div class="card-body border-light">
+                                        <h5 class="card-title">3 yr, Bobtail</h5>
+                                        <p class="card-text text-muted">Bugambilias</p>
+                                        <a href="selected_pick.html" class="stretched-link"></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <!-- Main Section Ends-->
+                </main>
+            </div>
+        </div>
+
+        <!-- Bootstrap JavaScript Libraries -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
+        <!-- local_jsscript -->
+        <script src="script.js"></script>
+    </body>
+
+</html>

@@ -1,0 +1,243 @@
+/* General Body Styling */
+body {
+    color: #000;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #fff;
+}
+
+/* List and Link Resets */
+li {
+    list-style: none;
+}
+a {
+    text-decoration: none;
+}
+
+/* Main Section Styling */
+.main {
+    min-height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    background-color: #fff;
+}
+
+/* Sidebar Styling */
+#sidebar {
+    max-width: 264px;
+    min-width: 264px;
+    transition: all 0.35s ease-in-out;
+    background-color: #fff; 
+    display: flex;
+    flex-direction: column;
+    color: #000;
+}
+
+#sidebar.collapsed {
+    margin-left: -264px;
+}
+
+/* Style for sidebar items to align icons and text */
+.sidebar-item {
+    display: flex;
+    align-items: center;
+    padding: 8px 15px;
+  }
+  
+  .sidebar-item i {
+    margin-right: 10px;
+  }
+  
+  .sidebar-item span {
+    flex: 1;
+  }
+  
+  /* Make sure links take full width of their container */
+  .sidebar-link {
+    display: block;
+    width: 100%;
+  }
+
+/* Sidebar Toggle Button */
+.toggler-btn {
+    background-color: transparent;
+    cursor: pointer;
+    border: 0;
+}
+.toggler-btn i {
+    font-size: 1.75rem;
+    color: #000;
+}
+
+/* Navbar Styling */
+.navbar {
+    padding: 1.15rem 1.5rem;
+    border-bottom: #d7d7d7 1px solid;
+}
+
+.navbar.no-border {
+    padding: 1.15rem 1.5rem;
+    border-bottom: none; 
+}
+
+
+/* Sidebar Logo */
+.sidebar-logo {
+    padding: 1.15rem;
+    text-align: justify;
+}
+.sidebar-logo a {
+    color: #000;
+    font-weight: bold;
+    font-size: 1.5rem;
+    text-decoration: none;
+}
+
+/* Sidebar Section Headers */
+.sidebar-header {
+    color: #000;
+}
+
+/* Sidebar Links */
+a.sidebar-link {
+    text-decoration: none;
+    font-family: var(--bs-body-font-family); 
+    padding: 0.625rem 1.625rem;
+    color: #000;
+    position: relative;
+    display: block;
+    font-size: 1.25rem;
+    transition: all 0.35s;
+}
+
+/* Sidebar Hover Effect */
+a.sidebar-link:hover {
+    background-color: #e6e6e6;
+    border-radius: 8px;
+    text-decoration: none;
+}
+
+/* Sidebar Dropdown Arrow */
+.sidebar-link[data-bs-toggle="collapse"]::after {
+    border: solid;
+    border-width: 0 0.075rem 0.075rem 0;
+    content: "";
+    display: inline-block;
+    padding: 2px;
+    position: absolute;
+    right: 1.5rem;
+    top: 1.4rem;
+    transform: rotate(-135deg);
+    transition: all 0.2s ease-out;
+    border-color: #000;
+}
+
+.sidebar-link[data-bs-toggle="collapse"].collapsed::after {
+    transform: rotate(45deg);
+}
+
+/* Sidebar Dropdown Links */
+.sidebar-dropdown {
+    background-color: #f9f9f9;
+    border-radius: 0 0 8px 8px;
+}
+.sidebar-dropdown a {
+    color: #555;
+    font-size: 1rem;
+}
+.sidebar-dropdown a:hover {
+    color: #000;
+}
+
+.card {
+    
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .card-img-top {
+    height: 250px;
+    object-fit: cover; /* Ensures images fill without distortion */
+  }
+  
+  .card-body {
+    flex-grow: 1; /* Allows content to fill remaining space */
+  }
+  
+  .card .favorite-btn {
+    position: absolute;
+    top: 5px !important;
+    right: 5px !important;
+    background-color: rgba(0, 0, 0, 0.5);
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 10;
+  }
+  
+  .card .favorite-btn i {
+    font-size: 18px;
+    color: white;
+  }
+  
+  .card .stretched-link::after {
+    z-index: 1;
+  }
+
+.stretched-link::after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    pointer-events: auto;
+    content: "";
+    background-color: rgba(0,0,0,0);
+}
+
+.media-body {
+    margin-left: 30px;
+}
+
+.favorite-container {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .favorite-container img {
+    width: 1200px;
+    height: auto;
+    border-radius: 15px;
+  }
+  
+  .favorite-container .favorite-btn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+  }
+  
+  .favorite-container .favorite-btn i {
+    font-size: 24px;
+    color: white;
+  }
+  
+
+  

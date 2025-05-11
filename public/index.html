@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>Login</title>
+        <!-- Required meta tags -->
+        <meta charset="utf-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+        />
+
+        <!-- Bootstrap CSS v5.2.1 -->
+         <!-- Bootstrap CSS v5.2.1 -->
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+            crossorigin="anonymous"
+        />
+    </head>
+
+    <body>
+        <br><br>
+        <br><br>
+        <br><br>
+        <br><br>
+        <br>
+        <header>
+            <h1 class="d-flex justify-content-center">
+            <b>
+                Paws & Hope
+            </b>
+            &nbsp;
+            </h1>
+            
+        </header>
+        <br>
+
+        <main>
+            <h3 class="d-flex justify-content-center">
+                Already signed up?&ensp;<a
+                class="link-opacity-75 text-dark link-underline-dark"
+                data-bs-dismiss="modal"
+                data-bs-toggle="modal"
+                data-bs-target="#modalId"
+                href="#modalId"
+                    > Login here!</a>
+            </h3>
+
+            <div class="row mb-3">
+                <form action="./picks.html" method="post">
+                    <label for="email" class="form-label d-flex justify-content-center text-secondary">Enter your email to start adopting!</label>
+                    
+                    <div class="d-grid gap-2 justify-content-center">
+                        <input
+                            type="email"
+                            class="form-control justify-content-center"
+                            name="email" 
+                            id="email" 
+                            aria-describedby="emailHelpId"
+                            placeholder="email@domain.com"
+                            required
+                        />
+                    </div>
+                    
+                    <div class="d-grid d-flex justify-content-center">
+                        <button 
+                            type="submit" 
+                            class="btn btn-dark justify-content-center col-4"
+                        >
+                            Sign up with email
+                        </button>
+                    </div>
+                </form>
+
+            </div>
+            
+            <!-- Modal Body -->
+            <!-- if you want to close by clicking outside the modal, delete the last endpoint:data-bs-backdrop and data-bs-keyboard -->
+            <div
+            class="modal fade"
+            id="modalId"
+            tabindex="-1"
+            data-bs-backdrop="static"
+            data-bs-keyboard="false"
+            role="dialog"
+            aria-labelledby="modalTitleId"
+            aria-hidden="true"
+        >
+            <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-sm" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalTitleId">User</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="registerForm" action="./picks.html" method="get">
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Register your email</label>
+                                <input type="email" class="form-control" id="create-user" placeholder="email@domain.com" required />
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <input type="submit" class="btn btn-dark text-light" href="./picks.html" value="Enter" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+        document.getElementById("registerForm").addEventListener("submit", function(event) {
+            const password = document.getElementById("create-password").value;
+            const confirmPassword = document.getElementById("confirm-password").value;
+
+            if (password !== confirmPassword) {
+                alert("Las contraseñas no coinciden.");
+                event.preventDefault(); 
+            }
+        });
+        </script>
+        </main>
+        <footer>
+            <div class="d-flex justify-content-center text-muted">
+                <div class="col-2"></div>
+                <small>
+                    By clicking continue, you agree with our <b>Terms of service</b>
+                    and <b>Privacy Policy</b>.  
+                </small>
+                <div class="col-2"></div>
+            </div>
+        </footer>
+        <!-- Bootstrap JavaScript Libraries -->
+        <script
+            src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+            integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+            crossorigin="anonymous"
+        ></script>
+
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+            integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+            crossorigin="anonymous"
+        ></script>
+    </body>
+</html>
+
