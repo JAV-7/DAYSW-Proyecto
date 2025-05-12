@@ -29,6 +29,10 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
+//Multer
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+
 // Configuración de Socket.IO con CORS actualizado
 const io = socketIO(server, {
     cors: corsOptions,

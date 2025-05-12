@@ -3,12 +3,27 @@ const Pet = require('../models/pet.model');
 //Create pet 
 exports.createPet = async (req, res) => {
     try {
-        const pet = await Pet.create(req.body);
+        const { name, age, gender, breed, species, place } = req.body;
+
+        const image = req.file ? req.file.filename : null;
+        if (!image) return res.status(400).json({ message: "Image is required." });
+
+        const pet = await Pet.create({
+            name,
+            age,
+            gender,
+            breed,
+            species,
+            place,
+            image
+        });
+
         res.status(201).json(pet);
     } catch(error) {
-        res.status(400).json( { message: error.message } );
+        res.status(400).json({ message: error.message });
     }
 };
+
 
 //Get all pets
 exports.getPets = async (req, res) => {
