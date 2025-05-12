@@ -177,7 +177,7 @@ function displayFavoritePets(pets) {
     const petCard = `
       <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
         <div class="card border-light" data-pet-id="${pet._id}">
-          <img src="${pet.image || 'https://via.placeholder.com/300'}" class="card-img-top" alt="${pet.name}">
+          <img src="${pet.image || 'https://www.seekpng.com/png/detail/360-3605845_dog-holding-paper-in-mouth.png'}" class="card-img-top" alt="${pet.name}">
           <div class="position-absolute top-0 start-0 p-2 text-white">
             <h4 class="card-title mb-0">${pet.name}</h4>
           </div>

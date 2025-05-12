@@ -1,3 +1,4 @@
+//pet.controller
 const Pet = require('../models/pet.model');
 
 //Create pet 
@@ -5,7 +6,7 @@ exports.createPet = async (req, res) => {
     try {
         const { name, age, gender, breed, species, place } = req.body;
 
-        const image = req.file ? req.file.filename : null;
+        const image = req.file ? `/uploads/${req.file.filename}` : null;
         if (!image) return res.status(400).json({ message: "Image is required." });
 
         const pet = await Pet.create({
