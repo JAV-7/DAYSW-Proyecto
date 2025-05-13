@@ -6,7 +6,7 @@ exports.createPet = async (req, res) => {
     try {
         const { name, age, gender, breed, species, place } = req.body;
 
-        const image = req.file ? `/uploads/${req.file.filename}` : null;
+        const image = req.file ? `/uploads/${req.file.filename}` : "https://www.seekpng.com/png/detail/360-3605845_dog-holding-paper-in-mouth.png";
         if (!image) return res.status(400).json({ message: "Image is required." });
 
         const pet = await Pet.create({

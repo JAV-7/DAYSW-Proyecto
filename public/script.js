@@ -141,6 +141,7 @@ async function fetchFavoritePets() {
 
 // Special display function for favorites page
 function displayFavoritePets(pets) {
+
   // Find the container for the pets
   // Note: In fav_picks.html, you might be missing a proper container with this class
   let petsContainer = document.querySelector('.row.gy-3');
@@ -177,7 +178,7 @@ function displayFavoritePets(pets) {
     const petCard = `
       <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
         <div class="card border-light" data-pet-id="${pet._id}">
-          <img src="${pet.image || 'https://www.seekpng.com/png/detail/360-3605845_dog-holding-paper-in-mouth.png'}" class="card-img-top" alt="${pet.name}">
+          <img src="${pet.image}" class="card-img-top" alt="${pet.name}">
           <div class="position-absolute top-0 start-0 p-2 text-white">
             <h4 class="card-title mb-0">${pet.name}</h4>
           </div>
@@ -245,8 +246,18 @@ async function fetchPets() {
   }
 }
 
+// Pagination variables
+let currentPage = 1;
+const petsPerPage = 4;
+let allPets = [];
+
+function displayPets(pets){
+  allPets = pets;
+  renderPetsPage(currentPage);
+}
+
 // Display Pets on UI 
-function displayPets(pets) {
+function renderPetsPage(page) {
   const petsContainer = document.querySelector('.row.gy-3');
   
   if (!petsContainer) {
@@ -256,12 +267,17 @@ function displayPets(pets) {
   
   petsContainer.innerHTML = '';
   
-  if (!pets || pets.length === 0) {
+  //Pagination limits
+  const start = (page - 1) * petsPerPage;
+  const end = start + petsPerPage;
+  const petsToShow = allPets.slice(start, end);
+
+  if (!petsToShow || petsToShow.length === 0) {
     petsContainer.innerHTML = '<div class="col-12 text-center"><h3>No pets available</h3></div>';
     return;
   }
   
-  pets.forEach(pet => {
+  petsToShow.forEach(pet => {
     const isFavorited = pet.isFavorited || false;
     const heartIcon = isFavorited ? 'bi-heart-fill text-danger' : 'bi-heart';
     
@@ -288,7 +304,31 @@ function displayPets(pets) {
     `;
     petsContainer.insertAdjacentHTML('beforeend', petCard);
   });
+  renderPaginationControls();
 }
+
+function renderPaginationControls() {
+  const container = document.getElementById('paginationControls');
+  if (!container) return;
+
+  const totalPages = Math.ceil(allPets.length / petsPerPage);
+  if (totalPages <= 1) {
+    container.innerHTML = '';
+    return;
+  }
+
+  container.innerHTML = `
+    <button class="btn btn-outline-secondary me-2" ${currentPage === 1 ? 'disabled' : ''} onclick="goToPage(${currentPage - 1})">Previous</button>
+    <span>Page ${currentPage} of ${totalPages}</span>
+    <button class="btn btn-outline-secondary ms-2" ${currentPage === totalPages ? 'disabled' : ''} onclick="goToPage(${currentPage + 1})">Next</button>
+  `;
+}
+
+function goToPage(page) {
+  currentPage = page;
+  renderPetsPage(currentPage);
+}
+
 
 // Fetch and display single pet details
 async function fetchAndDisplayPetDetails() {
@@ -370,7 +410,6 @@ async function displayPetDetails(pet) {
           <h4 class="mt-0">${pet.name}</h4>
           <h1 class="mt-0 fw-bold">${pet.age} year old, ${pet.breed}</h1>
           <br>
-          <p class="text-muted">${pet.description || 'No description available'}</p>
           <br>
           <div class="d-flex align-items-center mb-3">
               <i class="lni lni-location-arrow-right me-2"></i>
