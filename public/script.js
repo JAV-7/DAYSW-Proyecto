@@ -1,3 +1,5 @@
+// script.js
+
 // FRONTEND FUNCTIONALITY SCRIPTS
 const API_URL = 'http://localhost:3000'; 
 
