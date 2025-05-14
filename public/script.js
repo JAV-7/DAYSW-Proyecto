@@ -1,7 +1,7 @@
 // script.js
 
 // FRONTEND FUNCTIONALITY SCRIPTS
-const API_URL = 'http://localhost:3000'; 
+const API_URL = 'https://PawsHope.onrender.com'; 
 
 // Checking Authentication 
 function checkAuth() {
