@@ -233,11 +233,11 @@ async function fetchPets() {
     
     if (!response.ok) throw new Error(`Failed to fetch pets: ${response.status}`); // if token is not admin
     
-    const pets = await response.json(); // else... await data and convert to json format
-    console.log('Displayed Pets', pets); //debug
-    
-    // Display pets...
-    displayPets(pets);
+    allPets = await response.json();
+    filteredPets = [...allPets]; // Initialize filteredPets with all pets
+    console.log('Displayed Pets', allPets);
+        
+    renderPetsPage(currentPage);
   } catch (error) {
     console.error('Error:', error);
     // Redirect to login if token is invalid
@@ -252,6 +252,7 @@ async function fetchPets() {
 let currentPage = 1;
 const petsPerPage = 4;
 let allPets = [];
+let filteredPets = []; // variable to store filtered results
 
 function displayPets(pets){
   allPets = pets;
@@ -272,10 +273,11 @@ function renderPetsPage(page) {
   //Pagination limits
   const start = (page - 1) * petsPerPage;
   const end = start + petsPerPage;
-  const petsToShow = allPets.slice(start, end);
+  const petsToShow = filteredPets.slice(start, end);
 
   if (!petsToShow || petsToShow.length === 0) {
     petsContainer.innerHTML = '<div class="col-12 text-center"><h3>No pets available</h3></div>';
+    renderPaginationControls();
     return;
   }
   
@@ -313,7 +315,7 @@ function renderPaginationControls() {
   const container = document.getElementById('paginationControls');
   if (!container) return;
 
-  const totalPages = Math.ceil(allPets.length / petsPerPage);
+  const totalPages = Math.ceil(filteredPets.length / petsPerPage);
   if (totalPages <= 1) {
     container.innerHTML = '';
     return;
@@ -330,7 +332,6 @@ function goToPage(page) {
   currentPage = page;
   renderPetsPage(currentPage);
 }
-
 
 // Fetch and display single pet details
 async function fetchAndDisplayPetDetails() {
@@ -469,6 +470,29 @@ document.addEventListener('DOMContentLoaded', function() {
       handleSignup(e);
     });
   }
+  // search form event listener
+  const searchForm = document.getElementById('searchForm');
+  if (searchForm) {
+      searchForm.addEventListener('submit', function(e) {
+          e.preventDefault();
+          const searchInput = document.getElementById('searchInput');
+          filterPets(searchInput.value.trim());
+      });
+  }
+
+  // real-time search as user types
+  const searchInput = document.getElementById('searchInput');
+  if (searchInput) {
+      searchInput.addEventListener('input', function() {
+          filterPets(this.value.trim());
+      });
+  }
+
+  // logout handler
+  const logoutButtons = document.querySelectorAll('#logoutButton');
+  logoutButtons.forEach(button => {
+      button.addEventListener('click', handleLogout);
+  });
 });
 
 // Only add signup event listener if the element exists
@@ -533,3 +557,30 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 });
+
+// Handles search filtering
+function filterPets(searchTerm) {
+    if (!searchTerm) {
+        filteredPets = [...allPets];
+        renderPetsPage(currentPage);
+        return;
+    }
+
+    const term = searchTerm.toLowerCase();
+    filteredPets = allPets.filter(pet => 
+        pet.name.toLowerCase().includes(term) ||
+        pet.breed.toLowerCase().includes(term) ||
+        pet.species.toLowerCase().includes(term) ||
+        pet.place.toLowerCase().includes(term)
+    );
+
+    currentPage = 1; // Reset to first page when searching
+    renderPetsPage(currentPage);
+}
+
+//Logout
+function handleLogout() {
+  localStorage.removeItem('token');
+  window.location.href = 'index.html'; // Redirect to login page
+  
+}
