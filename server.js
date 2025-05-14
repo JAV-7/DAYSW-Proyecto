@@ -13,9 +13,11 @@ const jwt = require('jsonwebtoken');
 const User = require('./models/user.model');
 const Message = require('./models/message.model');
 const Connection = require('./models/connection.model');
+const setupSwagger = require("./config/swaggerConfig");
 
 const app = express();
 const server = http.createServer(app);
+setupSwagger(app);
 
 // Configuración de CORS más permisiva
 const corsOptions = {
