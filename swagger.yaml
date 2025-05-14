@@ -1,0 +1,526 @@
+openapi: 3.0.0
+info:
+  title: Paws&Hope
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000/api
+
+paths:
+  /users:
+    post:
+      summary: Create a new user
+      tags: [Users]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '201':
+          description: User created
+    get:
+      summary: Get all users (admin only)
+      tags: [Users]
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: List of users
+
+  /users/login:
+    post:
+      summary: Log in a user
+      tags: [Users]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Successful login with JWT
+
+  /users/{id}:
+    get:
+      summary: Get user by ID (admin or owner)
+      tags: [Users]
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: User data
+    put:
+      summary: Update user by ID (admin or owner)
+      tags: [Users]
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: User updated
+    delete:
+      summary: Delete user by ID (admin only)
+      tags: [Users]
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: User deleted
+  /pets:
+    get:
+      summary: Get all pets
+      tags: [Pets]
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: List of pets
+    post:
+      summary: Create a pet (client or admin)
+      tags: [Pets]
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                name: { type: string }
+                age: { type: number }
+                gender: { type: string, enum: [female, male, other] }
+                breed: { type: string }
+                species: { type: string, enum: [dog, cat, other] }
+                place: { type: string }
+                image: { type: string, format: binary }
+      responses:
+        '201':
+          description: Pet created
+
+  /pets/{id}:
+    get:
+      summary: Get a pet by ID
+      tags: [Pets]
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: Pet details
+    put:
+      summary: Update a pet (admin only)
+      tags: [Pets]
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: Pet updated
+    delete:
+      summary: Delete a pet (admin only)
+      tags: [Pets]
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '204':
+          description: Pet deleted
+
+  /pets/species/{species}:
+    get:
+      summary: Get pets by species
+      tags: [Pets]
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: species
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: Pets by species
+
+  /pets/breed/{breed}:
+    get:
+      summary: Get pets by breed
+      tags: [Pets]
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: breed
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: Pets by breed
+  /favorites:
+    get:
+      summary: Get all favorites for current user
+      tags: [Favorites]
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: List of favorite pets
+    post:
+      summary: Add a pet to favorites
+      tags: [Favorites]
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                pet:
+                  type: string
+      responses:
+        '201':
+          description: Pet added to favorites
+
+  /favorites/{petId}:
+    delete:
+      summary: Remove a pet from favorites
+      tags: [Favorites]
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: petId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Favorite removed
+  /adoptions:
+    post:
+      summary: Register an adoption
+      tags: [Adoptions]
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                pet:
+                  type: string
+                date:
+                  type: string
+                  format: date
+      responses:
+        '201':
+          description: Adoption recorded
+
+  /adoptions/{userId}:
+    get:
+      summary: Get adoptions for a specific user
+      tags: [Adoptions]
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: List of adoptions
+
+components:
+  components:
+  schemas:
+    User:
+      type: object
+      required:
+        - name
+        - email
+        - password
+        - role
+      properties:
+        _id:
+          type: string
+          description: MongoDB ObjectId
+          example: "60e5fe3e8f354b001e9c2e1a"
+        name:
+          type: string
+          description: User's name
+          example: "John Doe"
+        email:
+          type: string
+          description: User's email address
+          format: email
+          example: "john.doe@example.com"
+        password:
+          type: string
+          description: Hashed password (not exposed in API responses)
+          example: "$2a$10$xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        role:
+          type: string
+          enum: [admin, client]
+          description: User role
+          example: "client"
+        createdAt:
+          type: string
+          format: date-time
+          example: "2023-12-01T14:45:22.123Z"
+        updatedAt:
+          type: string
+          format: date-time
+          example: "2023-12-01T14:45:22.123Z"
+    Pet:
+      type: object
+      required:
+        - name
+        - age
+        - gender
+        - breed
+        - species
+        - place
+        - image
+      properties:
+        _id:
+          type: string
+          description: MongoDB ObjectId
+          example: "60f71ad4e13e4e2b9cddc4f2"
+        name:
+          type: string
+          description: Name of the pet
+          example: "Bella"
+        age:
+          type: integer
+          description: Age of the pet
+          example: 3
+        gender:
+          type: string
+          enum: [female, male, other]
+          description: Gender of the pet
+          example: "female"
+        breed:
+          type: string
+          description: Breed of the pet
+          example: "Labrador Retriever"
+        species:
+          type: string
+          enum: [dog, cat, other]
+          description: Species of the pet
+          example: "dog"
+        place:
+          type: string
+          description: Location or shelter of the pet
+          example: "New York City"
+        date:
+          type: string
+          format: date-time
+          description: Date the pet was added
+          example: "2023-11-15T10:20:30Z"
+        image:
+          type: string
+          description: URL or path to the image of the pet 
+          example: "https://example.com/images/bella.jpg"
+        createdAt:
+          type: string
+          format: date-time
+          description: Creation timestamp
+          example: "2023-11-15T10:20:30Z"
+        updatedAt:
+          type: string
+          format: date-time
+          description: Last updated timestamp
+          example: "2023-11-16T12:15:45Z"
+    Message:
+      type: object
+      required:
+        - chatId
+        - sender
+        - senderName
+        - content
+      properties:
+        _id:
+          type: string
+          description: MongoDB ObjectId
+          example: "60f7217de13e4e2b9cddc504"
+        chatId:
+          type: string
+          description: Unique ID of the chat this message belongs to
+          example: "abc123chat456"
+        sender:
+          type: string
+          description: ID of the user who sent the message
+          example: "609e125fc25e4a001fe7c123"
+        senderName:
+          type: string
+          description: Name of the sender at the time the message was sent
+          example: "Alice"
+        content:
+          type: string
+          description: Text content of the message
+          example: "Hello, how are you?"
+        timestamp:
+          type: string
+          format: date-time
+          description: Time when the message was created
+          example: "2023-12-01T14:45:22.123Z"
+        read:
+          type: boolean
+          description: Whether the message has been read
+          example: false
+        createdAt:
+          type: string
+          format: date-time
+          description: Time when the document was created
+          example: "2023-12-01T14:45:22.123Z"
+        updatedAt:
+          type: string
+          format: date-time
+          description: Last updated timestamp
+          example: "2023-12-01T14:45:22.123Z"
+    Favorite:
+      type: object
+      required:
+        - user
+        - pet
+      properties:
+        _id:
+          type: string
+          description: MongoDB ObjectId
+          example: "60f72f52e13e4e2b9cddc618"
+        user:
+          type: string
+          description: ID of the user who favorited the pet
+          example: "609e125fc25e4a001fe7c123"
+        pet:
+          type: string
+          description: ID of the favorited pet
+          example: "60f71ad4e13e4e2b9cddc4f2"
+        addedAt:
+          type: string
+          format: date-time
+          description: Date when the favorite was added
+          example: "2023-12-01T14:45:22.123Z"
+    Connection:
+      type: object
+      required:
+        - userId
+        - name
+      properties:
+        _id:
+          type: string
+          description: MongoDB ObjectId
+          example: "60f730b4e13e4e2b9cddc750"
+        userId:
+          type: string
+          description: Reference to the connected user
+          example: "609e125fc25e4a001fe7c123"
+        name:
+          type: string
+          description: User's name
+          example: "Alice"
+        email:
+          type: string
+          description: User's email (optional)
+          example: "alice@example.com"
+        status:
+          type: string
+          enum: [online, offline]
+          description: Current connection status
+          example: "online"
+        lastSeen:
+          type: string
+          format: date-time
+          description: Last time the user was seen online
+          example: "2023-12-01T14:45:22.123Z"
+        socketId:
+          type: string
+          description: Socket.IO connection ID (optional)
+          example: "Fq89gh2uZlABJmK8AAAC"
+        createdAt:
+          type: string
+          format: date-time
+          description: Record creation timestamp
+          example: "2023-12-01T14:45:22.123Z"
+        updatedAt:
+          type: string
+          format: date-time
+          description: Last update timestamp
+          example: "2023-12-01T15:10:00.000Z"
+    Adoption:
+      type: object
+      required:
+        - user
+        - pet
+        - date
+      properties:
+        _id:
+          type: string
+          description: MongoDB ObjectId
+          example: "60f7398ae13e4e2b9cddc842"
+        user:
+          type: string
+          description: ID of the user who adopted the pet
+          example: "609e125fc25e4a001fe7c123"
+        pet:
+          type: string
+          description: ID of the adopted pet
+          example: "60f71ad4e13e4e2b9cddc4f2"
+        date:
+          type: string
+          description: Date of adoption (format: YYYY-MM-DD)
+          example: "2024-05-10"
+        -
+      
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
