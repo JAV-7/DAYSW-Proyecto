@@ -1,3 +1,52 @@
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Pet:
+ *       type: object
+ *       required:
+ *         - name
+ *         - age
+ *         - gender
+ *         - breed
+ *         - species
+ *         - place
+ *         - image
+ *       properties:
+ *         _id:
+ *           type: string
+ *           description: ID autogenerado de la mascota
+ *         name:
+ *           type: string
+ *         age:
+ *           type: integer
+ *         gender:
+ *           type: string
+ *           enum: [female, male, other]
+ *         breed:
+ *           type: string
+ *         species:
+ *           type: string
+ *           enum: [dog, cat, other]
+ *         place:
+ *           type: string
+ *           description: Ubicación donde se encuentra la mascota
+ *         date:
+ *           type: string
+ *           format: date-time
+ *           description: Fecha de registro
+ *         image:
+ *           type: string
+ *           description: URL de la imagen de la mascota
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *         updatedAt:
+ *           type: string
+ *           format: date-time
+ */
+
+
 const mongoose = require('mongoose');
 
 const PetSchema = new mongoose.Schema({

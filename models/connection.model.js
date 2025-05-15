@@ -1,3 +1,37 @@
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Connection:
+ *       type: object
+ *       required:
+ *         - userId
+ *         - name
+ *       properties:
+ *         _id:
+ *           type: string
+ *         userId:
+ *           type: string
+ *         name:
+ *           type: string
+ *         email:
+ *           type: string
+ *         status:
+ *           type: string
+ *           enum: [online, offline]
+ *         lastSeen:
+ *           type: string
+ *           format: date-time
+ *         socketId:
+ *           type: string
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *         updatedAt:
+ *           type: string
+ *           format: date-time
+ */
+
 const mongoose = require('mongoose');
 
 const connectionSchema = new mongoose.Schema({

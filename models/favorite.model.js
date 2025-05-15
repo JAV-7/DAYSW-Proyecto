@@ -1,4 +1,26 @@
 // models/favorite.model.js
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Favorite:
+ *       type: object
+ *       required:
+ *         - user
+ *         - pet
+ *       properties:
+ *         _id:
+ *           type: string
+ *         user:
+ *           type: string
+ *           description: ID del usuario
+ *         pet:
+ *           type: string
+ *           description: ID de la mascota
+ *         addedAt:
+ *           type: string
+ *           format: date-time
+ */
 const mongoose = require('mongoose');
 
 const FavoriteSchema = new mongoose.Schema({
