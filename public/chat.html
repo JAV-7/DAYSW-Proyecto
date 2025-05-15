@@ -42,6 +42,7 @@
         border-right: 1px solid #dee2e6;
         height: 100%; /*Ocupa todo el alto  de su contenedor padre*/
         overflow-y: auto;
+        position: relative; /* Para posicionar el botón de regreso */
       }
       /*Cambia el aspecto del pointer al tocar los elementos */
       .chat-list .list-group-item {
@@ -315,12 +316,42 @@
         font-size: 48px;
         margin-bottom: 15px;
       }
+
+      /* Botón de volver a Home */
+      .back-home-btn {
+        position: absolute;
+        bottom: 15px;
+        right: 15px;
+        z-index: 100;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      }
+      
+      /* Botón para móviles */
+      .mobile-back-btn {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 1030;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        display: none;
+      }
+      
+      @media (max-width: 767.98px) {
+        .mobile-back-btn {
+          display: block;
+        }
+      }
     </style>
   </head>
 
   <body>
     <!-- Agregar notificación -->
     <div id="notification" class="notification"></div>
+
+    <!-- Botón para volver fijo en móviles -->
+    <a href="picks.html" class="btn btn-dark rounded-circle mobile-back-btn">
+        <i class="bi bi-house-fill"></i>
+    </a>
 
     <!--Conttenedor de bootstrap para alinear y centrar el contenido con un ancho máximo responsivo
     my-4 añade margen  de tamaño 4 = 1.4 rem (4/16 = .25) -->
@@ -339,6 +370,9 @@
                 <div id="usersList">
                     <!-- Los usuarios se cargarán dinámicamente -->
                 </div>
+                <a href="picks.html" class="btn btn-dark rounded-circle back-home-btn">
+                    <i class="bi bi-house-fill"></i>
+                </a>
             </div>
 
             <!-- Área de chat -->
@@ -384,7 +418,7 @@
           aria-label="Close"
         ></button>
       </div>
-      <div class="offcanvas-body p-0">
+      <div class="offcanvas-body p-0 position-relative">
         <div class="p-3 border-bottom">
           <input
             type="text"
@@ -494,8 +528,13 @@
             </li>
             
         </ul>
+        
+        <a href="picks.html" class="btn btn-dark rounded-circle back-home-btn">
+            <i class="bi bi-house-fill"></i>
+        </a>
       </div>
     </div>
+    
     <!-- Offcanvas: Perfil del usuario (NUEVO) -->
     <div
       class="offcanvas offcanvas-end"
@@ -511,8 +550,8 @@
                 data-bs-dismiss="offcanvas"
                 aria-label="Close"
             ></button>
-            </div>
-            <div class="offcanvas-body">
+        </div>
+        <div class="offcanvas-body position-relative">
             <!--Información del perfil -->
             <div class="text-center">
                 <img
@@ -534,6 +573,10 @@
                 <strong>Email:</strong><br />
                 helena@example.com
             </p>
+            
+            <a href="picks.html" class="btn btn-dark rounded-circle back-home-btn">
+                <i class="bi bi-house-fill"></i>
+            </a>
         </div>
     </div>
 
