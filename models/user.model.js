@@ -1,5 +1,45 @@
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     User:
+ *       type: object
+ *       required:
+ *         - name
+ *         - email
+ *         - password
+ *         - role
+ *       properties:
+ *         _id:
+ *           type: string
+ *           description: ID autogenerado del usuario
+ *         name:
+ *           type: string
+ *           description: Nombre completo del usuario
+ *         email:
+ *           type: string
+ *           format: email
+ *           description: Correo electrónico único del usuario
+ *         password:
+ *           type: string
+ *           format: password
+ *           description: Contraseña encriptada
+ *         role:
+ *           type: string
+ *           enum: [admin, client]
+ *           default: client
+ *           description: Rol del usuario
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *         updatedAt:
+ *           type: string
+ *           format: date-time
+ */
+
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
+
 
 const userSchema = new mongoose.Schema({
     name: { 

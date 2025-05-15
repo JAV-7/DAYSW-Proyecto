@@ -11,7 +11,7 @@ const options = {
         },
         servers: [
             {
-                url: "http://localhost:5500",
+                url: "http://localhost:3000",
             },
         ],
         components: {
@@ -27,7 +27,7 @@ const options = {
             bearerAuth: []
           }]
     },
-    apis: ["routes/*.js"],
+    apis: ["routes/*.js",  'models/*.js'],
 };
 
 const swaggerSpec = swaggerJsDoc(options);

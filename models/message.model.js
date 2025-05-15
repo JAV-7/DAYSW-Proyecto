@@ -1,4 +1,41 @@
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Message:
+ *       type: object
+ *       required:
+ *         - chatId
+ *         - sender
+ *         - senderName
+ *         - content
+ *       properties:
+ *         _id:
+ *           type: string
+ *         chatId:
+ *           type: string
+ *         sender:
+ *           type: string
+ *           description: ID del usuario que envió el mensaje
+ *         senderName:
+ *           type: string
+ *         content:
+ *           type: string
+ *         timestamp:
+ *           type: string
+ *           format: date-time
+ *         read:
+ *           type: boolean
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *         updatedAt:
+ *           type: string
+ *           format: date-time
+ */
+
 const mongoose = require('mongoose');
+
 
 const messageSchema = new mongoose.Schema({
     chatId: {
