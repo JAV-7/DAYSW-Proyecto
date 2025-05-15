@@ -8,6 +8,12 @@ const jwt = require('jsonwebtoken');
 
 //Publico
 router.post('/', userController.createUser);
+router.post('/login', userController.loginUser);
+
+// User profile routes - Must come before /:id routes
+router.get('/profile', verifyToken, userController.getCurrentUser);
+router.put('/profile', verifyToken, userController.updateCurrentUser);
+router.delete('/profile', verifyToken, userController.deleteCurrentUser);
 
 //Admin
 router.get('/', verifyToken, authorizeRole(['admin']), userController.getUsers);
@@ -16,8 +22,5 @@ router.delete('/:id', verifyToken, authorizeRole(['admin']), userController.dele
 //Admin o dueño
 router.get('/:id', verifyToken, isOwnerOrAdmin, userController.getUserById);
 router.put('/:id', verifyToken, isOwnerOrAdmin, userController.updateUser);
-
-// Login route (using bcrypt password )
-router.post('/login', userController.loginUser);
 
 module.exports = router;

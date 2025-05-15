@@ -49,6 +49,10 @@
     .btn-cancel {
       margin-right: 0.5rem;
     }
+    .alert {
+      display: none;
+      margin-top: 1rem;
+    }
   </style>
 </head>
 <body>
@@ -86,17 +90,29 @@
       <div class="col-md-8 align-items-center">
         <h6 class="fw-bold mb-3 text-center">BASIC INFO</h6>
         <hr style=" height: 2px; background-color: black;">
-        <form>
+        
+        <!-- Alert for messages -->
+        <div id="alertMessage" class="alert" role="alert"></div>
+        
+        <form id="profileForm">
           <div class="row mb-3">
             <div class="col-sm-6">
-              <label for="name" class="">NAME</label>
-              <!--Nombre del usuario se despliega aquí-->
-              <div id="userName"></div>
+              <label for="name" class="form-label">NAME</label>
+              <input 
+                type="text" 
+                class="form-control" 
+                id="userName" 
+                name="name"
+              />
             </div>
             <div class="col-sm-6">
               <label for="email" class="form-label">EMAIL</label>
-              <!--Email del usuario se despliega aquí-->
-              <div id="userEmail"></div>
+              <input 
+                type="email" 
+                class="form-control" 
+                id="userEmail" 
+                name="email"
+              />
             </div>
           </div>
 
@@ -126,13 +142,15 @@
             <button 
               type="button" 
               class="btn btn-light btn-cancel"
+              id="cancelButton"
             >
               Cancel
             </button>
-            <!--Submit button envía el forms y envía a pick.html-->
+            <!--Submit button envía el forms-->
             <button 
               type="submit" 
               class="btn btn-dark"
+              id="saveButton"
             >
               Save
             </button>
@@ -144,8 +162,9 @@
       <div class="row mb-3">
         <div class="d-flex justify-content mt-4">
           <button 
-              type="submit" 
+              type="button" 
               class="btn btn-danger"
+              id="deleteAccountButton"
             >
               Delete account
             </button>
@@ -168,9 +187,207 @@
 </div> <!-- Fin container -->
 
     <script>
-    document.querySelector('.btn-cancel')?.addEventListener('click', () => {
-      document.getElementById('newPassword').value = '';
-      document.getElementById('confirmPassword').value = '';
+    // Check if user is logged in
+    document.addEventListener('DOMContentLoaded', function() {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        window.location.href = 'index.html'; // Redirect to login page if not logged in
+        return;
+      }
+      
+      // Define API URL
+      const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+        ? 'http://localhost:3000' 
+        : 'https://your-production-url.com';
+      
+      // Get user information when page loads
+      fetchUserProfile();
+      
+      // Handle form submission
+      document.getElementById('profileForm').addEventListener('submit', updateProfile);
+      
+      // Handle cancel button
+      document.getElementById('cancelButton').addEventListener('click', () => {
+        document.getElementById('newPassword').value = '';
+        document.getElementById('confirmPassword').value = '';
+        fetchUserProfile(); // Reset form with original data
+      });
+      
+      // Handle logout button
+      document.getElementById('logoutButton').addEventListener('click', () => {
+        localStorage.removeItem('token');
+        window.location.href = 'index.html';
+      });
+      
+      // Handle delete account button
+      document.getElementById('deleteAccountButton').addEventListener('click', confirmDeleteAccount);
+      
+      // Function to fetch user profile
+      async function fetchUserProfile() {
+        try {
+          // DEBUG: Log token information
+          console.log('Token:', token);
+          
+          // Parse JWT payload (without verification)
+          try {
+            const tokenPayload = JSON.parse(atob(token.split('.')[1]));
+            console.log('Token payload:', tokenPayload);
+          } catch (e) {
+            console.error('Error parsing token:', e);
+          }
+          
+          const response = await fetch(`${API_URL}/api/users/profile`, {
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+          });
+          
+          // DEBUG: Log response status
+          console.log('Response status:', response.status);
+          
+          if (!response.ok) {
+            if (response.status === 401 || response.status === 403) {
+              // Token expired or invalid
+              console.log('Auth error - redirecting to login');
+              localStorage.removeItem('token');
+              window.location.href = 'index.html';
+              return;
+            }
+            
+            // Try to get error details
+            let errorMessage = `Failed to fetch profile: ${response.status}`;
+            try {
+              const errorData = await response.json();
+              console.error('Error response JSON:', errorData);
+              
+              errorMessage = errorData.message || errorData.error || errorMessage;
+            } catch (e) {
+              const errorText = await response.text();
+              console.error('Error response text:', errorText);
+            }
+            
+            throw new Error(errorMessage);
+          }
+          
+          const user = await response.json();
+          console.log('User data:', user);
+          
+          // Display user information
+          document.getElementById('userName').value = user.name || '';
+          document.getElementById('userEmail').value = user.email || '';
+          
+        } catch (error) {
+          console.error('Profile fetch error:', error);
+          showAlert(error.message, 'danger');
+        }
+      }
+      
+      // Function to update user profile
+      async function updateProfile(event) {
+        event.preventDefault();
+        
+        const name = document.getElementById('userName').value.trim();
+        const email = document.getElementById('userEmail').value.trim();
+        const newPassword = document.getElementById('newPassword').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+        
+        // Basic validation
+        if (!name || !email) {
+          showAlert('Name and email are required', 'danger');
+          return;
+        }
+        
+        // Email validation
+        const emailRegex = /^\S+@\S+\.\S+$/;
+        if (!emailRegex.test(email)) {
+          showAlert('Please enter a valid email address', 'danger');
+          return;
+        }
+        
+        // Create update object
+        const updateData = { name, email };
+        
+        // Check if password is being updated
+        if (newPassword) {
+          if (newPassword !== confirmPassword) {
+            showAlert('Passwords do not match', 'danger');
+            return;
+          }
+          
+          if (newPassword.length < 6) {
+            showAlert('Password must be at least 6 characters long', 'danger');
+            return;
+          }
+          
+          updateData.password = newPassword;
+        }
+        
+        try {
+          const response = await fetch(`${API_URL}/api/users/profile`, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(updateData)
+          });
+          
+          if (!response.ok) {
+            const errorData = await response.json();
+            
+            if (errorData.details && errorData.details.email === "Email already in use") {
+              showAlert('Email is already in use by another account', 'danger');
+              return;
+            }
+            
+            throw new Error(errorData.error || 'Failed to update profile');
+          }
+          
+          // Clear password fields
+          document.getElementById('newPassword').value = '';
+          document.getElementById('confirmPassword').value = '';
+          
+          showAlert('Profile updated successfully', 'success');
+        } catch (error) {
+          showAlert(error.message, 'danger');
+        }
+      }
+      
+      // Function to show alert message
+      function showAlert(message, type) {
+        const alertElement = document.getElementById('alertMessage');
+        alertElement.textContent = message;
+        alertElement.className = `alert alert-${type}`;
+        alertElement.style.display = 'block';
+        
+        // Hide alert after 5 seconds
+        setTimeout(() => {
+          alertElement.style.display = 'none';
+        }, 5000);
+      }
+      
+      // Function to handle account deletion
+      async function confirmDeleteAccount() {
+        if (confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
+          try {
+            const response = await fetch(`${API_URL}/api/users/profile`, {
+              method: 'DELETE',
+              headers: {
+                'Authorization': `Bearer ${token}`
+              }
+            });
+            
+            if (!response.ok) {
+              throw new Error('Failed to delete account');
+            }
+            
+            localStorage.removeItem('token');
+            window.location.href = 'index.html';
+          } catch (error) {
+            showAlert(error.message, 'danger');
+          }
+        }
+      }
     });
     </script>
 
@@ -178,8 +395,5 @@
     <script 
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js">
     </script>
-    <!-- local_jsscript -->
-    <script src="script.js"></script>
-    <!--<script src="script.js"></script>-->
-</body>
+    </body>
 </html>
